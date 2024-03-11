@@ -1,0 +1,85 @@
+version: "3.8"
+
+services:
+  # NGINX service configuration
+  nginx:
+    # Build NGINX image from requirements/nginx/ directory
+    build: requirements/nginx/
+    # Name image
+    image: nginx
+    # Name the container as nginx
+    container_name: nginx
+    # Restart the container always
+    restart: always
+    # Expose port 443 of the container
+    ports:
+      - 443:443
+    # Connect to the inception network
+    networks:
+      - inception
+    # Depend on the wordpress service
+    depends_on:
+      - wordpress
+    # Mount wordpress_data volume to /var/www/html inside the container
+    volumes:
+      - wordpress_data:/var/www/html
+
+  # MariaDB service configuration
+  mariadb:
+    build: requirements/mariadb/
+    image: mariadb
+    container_name: mariadb
+    volumes:
+      - mariadb_data:/var/lib/mysql
+    restart: always
+    ports:
+      - 3306:3306
+    networks:
+      - inception
+    env_file: .env
+
+  # WordPress service configuration
+  wordpress:
+    build:  requirements/wordpress/
+    image: wordpress
+    container_name: wordpress
+    depends_on:
+      - mariadb
+    restart: always
+    env_file: .env
+    networks:
+      - inception
+    ports:
+      - 9000
+    volumes:
+      - wordpress_data:/var/www/html
+
+# Define a custom bridge network named inception
+networks:
+  # Name of the custom bridge network
+  inception:
+    # Specifies the network driver as bridge, which allows containers on the same network to communicate with each other.
+    driver: bridge
+
+# Define two local volumes for MariaDB and WordPress data
+volumes:
+  # Name of the volume for MariaDB data
+  mariadb_data:
+    # Specifies the volume driver as local, meaning the volume will be managed locally on the host.
+    driver: local
+    # Additional options for the volume driver
+    driver_opts:
+      type: none
+      # Specifies the bind type, which allows you to mount a directory from the host into the container.
+      o: bind
+      # Specifies the directory on the host machine to be mounted into the container.
+      device: /home/rgomes-c/data/mysql
+    # Name of the volume
+    name: mariadb_data
+  wordpress_data:
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: /home/rgomes-c/data/wordpress
+    name: wordpress_data
