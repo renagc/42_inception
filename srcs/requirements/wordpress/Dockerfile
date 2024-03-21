@@ -1,4 +1,4 @@
-# Use Debian Bullseye as the base image
+# Use Debian bullseye as the base image
 FROM debian:bullseye
 
 # Update and upgrade the package repository
