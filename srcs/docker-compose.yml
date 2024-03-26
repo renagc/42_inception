@@ -34,6 +34,12 @@ services:
     restart: always
     ports:
       - 3306:3306
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "--silent"]
+      interval: 5s
+      timeout: 30s
+      retries: 5
+      start_period: 5s
     networks:
       - inception
     env_file: .env
@@ -44,13 +50,14 @@ services:
     image: wordpress
     container_name: wordpress
     depends_on:
-      - mariadb
+      mariadb:
+        condition: service_healthy
     restart: always
     env_file: .env
     networks:
       - inception
     ports:
-      - 9000:9000
+      - 9000
     volumes:
       - wordpress_data:/var/www/html
 

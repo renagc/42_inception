@@ -3,9 +3,6 @@
 # Update PHP-FPM configuration to listen on port 9000 for incoming connections
 sed -i "s/listen = \/run\/php\/php7.4-fpm.sock/listen = 0.0.0.0:9000/g" /etc/php/7.4/fpm/pool.d/www.conf
 
-# Wait for 10 seconds to ensure PHP-FPM is ready
-sleep 10s
-
 # Generate WordPress configuration file
 # wp config create \
 #     --dbname=${MYSQL_DB_NAME} \          # Specify the WordPress database name

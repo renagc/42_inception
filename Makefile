@@ -28,14 +28,13 @@ re: fclean all
 
 start_eval:
 	@if [ "$$(docker ps -qa)" ]; then \
-		sudo docker stop $(docker ps -qa) && docker rm $(docker ps -qa); \
+		sudo docker stop $$(docker ps -qa) && docker rm $$(docker ps -qa); \
 	fi
 	@if [ "$$(docker images -qa)" ]; then \
-		sudo docker rmi $(docker images -qa); \
+		sudo docker rmi $$(docker images -qa); \
 	fi
 	@if [ "$$(docker volume ls -q)" ]; then \
-		sudo docker volume rm $(docker volume ls -q); \
+		sudo docker volume rm $$(docker volume ls -q); \
 	fi
-	@if [ "$$(docker network ls -q)" ]; then \
-		docker network rm $(docker network ls -q); \
-	fi
+
+# docker network rm $(docker network ls -q) 2>/dev/null
