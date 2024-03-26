@@ -20,7 +20,7 @@ RUN mkdir -p /var/run/mysqld \
 EXPOSE 3306
 
 # Copy the start script to the root directory and make it executable
-COPY ./conf/start.sh /
+COPY ./tools/start.sh /
 RUN chmod +x start.sh
 
 # Set the start script as the entry point

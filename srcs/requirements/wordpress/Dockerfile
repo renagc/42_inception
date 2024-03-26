@@ -30,7 +30,7 @@ RUN rm -rf wordpress/
 RUN mkdir /run/php
 
 # Copy the configuration script for WordPress container
-COPY ./conf/config.sh /usr/local/bin/config.sh
+COPY ./tools/config.sh /usr/local/bin/config.sh
 RUN chmod +x /usr/local/bin/config.sh
 
 # Install wp-cli for WordPress management
