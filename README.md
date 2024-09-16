@@ -13,7 +13,7 @@ This project aims to broaden knowledge in system administration using Docker. It
 5. A volume for WordPress website files
 6. A docker-network to connect all containers
 
-### Directory Structure Example:
+### Directory Structure:
     .
     ├── Makefile
     ├── requirements
